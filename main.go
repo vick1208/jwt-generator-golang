@@ -18,12 +18,12 @@ func main() {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/login", authcontroller.Login).Methods("POST")
-	r.HandleFunc("/register", authcontroller.Register).Methods("POST")
-	r.HandleFunc("/logout", authcontroller.Logout).Methods("GET")
+	r.HandleFunc("/login", authcontroller.Login).Methods(http.MethodPost)
+	r.HandleFunc("/register", authcontroller.Register).Methods(http.MethodPost)
+	r.HandleFunc("/logout", authcontroller.Logout).Methods(http.MethodGet)
 
 	api := r.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/products", productcontroller.Index).Methods("GET")
+	api.HandleFunc("/products", productcontroller.Index).Methods(http.MethodGet)
 	api.Use(middlewares.JWTMiddle)
 
 	log.Fatal(http.ListenAndServe(":4000", r))
